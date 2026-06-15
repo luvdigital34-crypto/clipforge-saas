@@ -12,7 +12,7 @@ export async function callClaude({ system, messages, model = "claude-haiku-4-5-2
   const apiKey = getApiKey();
   if (!apiKey) throw new Error("Clé API manquante — configure ta clé sur le Dashboard.");
 
-  const res = await fetch("/api/claude/v1/messages", {
+const res = await fetch("/api/claude", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
