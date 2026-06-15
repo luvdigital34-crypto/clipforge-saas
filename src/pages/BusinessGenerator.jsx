@@ -49,7 +49,7 @@ export default function BusinessGenerator() {
       });
       const clean = text.replace(/```json|```/g, "").trim();
       const match = clean.match(/(\{[\s\S]*\})/);
-      setResult(JSON.parse(match ? match[0] : clean));
+      try { setResult(JSON.parse(match ? match[0] : clean)); } catch { setResult(JSON.parse(clean.substring(0, clean.lastIndexOf("}") + 1))); }
     } catch (err) { alert("Erreur: " + err.message); }
     finally { setLoading(false); }
   };
