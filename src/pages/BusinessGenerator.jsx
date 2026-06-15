@@ -47,9 +47,17 @@ export default function BusinessGenerator() {
         max_tokens: 2000,
         messages: [{ role: "user", content: `Budget disponible : ${budget}€. Compétences : ${skills.join(", ")}. Projet envisagé : ${project}. Objectif mensuel : ${goal}€/mois. Génère un plan d'action business concret et réaliste pour 2025.` }]
       });
-      const clean = text.replace(/```json|```/g, "").trim();
+     const clean = text
+        .replace(/```json|```/g, "")
+        .replace(/[\x00-\x1F\x7F]/g, " ")
+        .trim();
       const match = clean.match(/(\{[\s\S]*\})/);
-      try { setResult(JSON.parse(match ? match[0] : clean)); } catch { setResult(JSON.parse(clean.substring(0, clean.lastIndexOf("}") + 1))); }
+      try {
+        setResult(JSON.parse(match ? match[0] : clean));
+      } catch {
+        const fixed = (match ? match[0] : clean).replace(/[\x00-\x1F\x7F]/g, "");
+        setResult(JSON.parse(fixed));
+      }
     } catch (err) { alert("Erreur: " + err.message); }
     finally { setLoading(false); }
   };
