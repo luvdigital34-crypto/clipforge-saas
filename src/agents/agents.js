@@ -1,6 +1,6 @@
 const SYSTEM = `Tu es un expert en montage vidéo TikTok viral. Tu analyses précisément le script fourni et tu crées un plan de montage détaillé et cohérent avec le contenu. Chaque segment doit correspondre exactement à une partie du script. Réponds UNIQUEMENT avec du JSON pur, zéro backtick, zéro markdown.`;
+
 const res = await fetch("/api/claude", {
-async function callClaude(apiKey, prompt) {
   const res = await fetch("/api/claude/v1/messages", {
     method: "POST",
     headers: { "Content-Type": "application/json", "x-api-key": apiKey },
