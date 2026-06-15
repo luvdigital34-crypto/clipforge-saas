@@ -1,7 +1,7 @@
 const SYSTEM = `Tu es un expert en montage vidéo TikTok viral. Tu analyses précisément le script fourni et tu crées un plan de montage détaillé et cohérent avec le contenu. Chaque segment doit correspondre exactement à une partie du script. Réponds UNIQUEMENT avec du JSON pur, zéro backtick, zéro markdown.`;
 
-const res = await fetch("/api/claude", {
-const res = await fetch("/api/claude/v1/messages", {
+async function callClaude(apiKey, prompt) {
+  const res = await fetch("/api/claude", {
     method: "POST",
     headers: { "Content-Type": "application/json", "x-api-key": apiKey },
     body: JSON.stringify({
@@ -51,7 +51,6 @@ Instructions:
 
 JSON tableau: [{"index":0,"text":"texte exact du script pour ce segment","imageIndex":0,"startMs":0,"durationMs":3000,"transition":"cut","subtitleText":"résumé court du segment","emphasis":true}]`);
   if (Array.isArray(r) && r.length > 0) return r;
-  // Fallback : découpe automatique du script
   const sentences = script.match(/[^.!?]+[.!?]+/g) || [script];
   return sentences.slice(0, 10).map((s, i) => ({
     index: i, text: s.trim(), imageIndex: i % Math.max(imageCount, 1),
