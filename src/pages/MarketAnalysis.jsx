@@ -48,20 +48,15 @@ export default function MarketAnalysis() {
     if (!product.trim()) { setError("Entre un produit."); return; }
     setError(""); setLoading(true); setResult(null);
     try {
-      const res = await fetch("/api/claude/v1/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "x-api-key": getApiKey(),  },
-        body: JSON.stringify({
-          model: "claude-haiku-4-5-20251001",
-          max_tokens: 1500,
-          system: SYSTEM,
-          messages: [{ role: "user", content: `Analyse le marché pour : ${product}. État : ${condition}. Prix d'achat : ${purchasePrice || "inconnu"}€. Donne des prix réalistes basés sur le marché actuel 2025.` }]
-        })
+     const text = await callClaude({
+        system: SYSTEM,
+        model: "claude-haiku-4-5-20251001",
+        max_tokens: 1500,
+        messages: [{ role: "user", content: `Analyse le marché pour : ${product}. État : ${condition}. Prix d'achat : ${purchasePrice || "inconnu"}€. Donne des prix réalistes basés sur le marché actuel 2025.` }]
       });
-      const data = await res.json();
-      const text = data.content?.[0]?.text || "{}";
       const clean = text.replace(/```json|```/g, "").trim();
-      setResult(JSON.parse(clean));
+      const match = clean.match(/(\{[\s\S]*\})/);
+      setResult(JSON.parse(match ? match[0] : clean));
     } catch (err) {
       setError("Erreur : " + err.message);
     } finally { setLoading(false); }
