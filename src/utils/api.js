@@ -1,5 +1,5 @@
 export function getApiKey() {
-  const envKey = "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";
+  const envKey = const envKey = import.meta.env.VITE_ANTHROPIC_API_KEY;
   if (envKey && envKey.startsWith("sk-")) return envKey;
   try {
     const raw = localStorage.getItem("clipforge-storage");
