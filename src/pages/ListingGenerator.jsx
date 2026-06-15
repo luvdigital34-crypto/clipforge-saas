@@ -44,18 +44,15 @@ export default function ListingGenerator() {
     if (!product.trim()) return;
     setLoading(true); setResult(null);
     try {
-      const res = await fetch("/api/claude/v1/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "x-api-key": getApiKey(),  },
-        body: JSON.stringify({
-          model: "claude-haiku-4-5-20251001",
-          max_tokens: 2000,
-          system: SYSTEM,
-          messages: [{ role: "user", content: `Produit : ${product}. État : ${condition}. Prix souhaité : ${price}€. Détails : ${details}. Plateformes : ${selectedPlatforms.join(", ")}. Génère des annonces optimisées pour chaque plateforme avec le ton adapté.` }]
-        })
+     const text = await callClaude({
+        system: SYSTEM,
+        model: "claude-haiku-4-5-20251001",
+        max_tokens: 2000,
+        messages: [{ role: "user", content: `Produit : ${product}. État : ${condition}. Prix souhaité : ${price}€. Détails : ${details}. Plateformes : ${selectedPlatforms.join(", ")}. Génère des annonces optimisées pour chaque plateforme avec le ton adapté.` }]
       });
-      const data = await res.json();
-      const parsed = JSON.parse(data.content?.[0]?.text.replace(/```json|```/g, "").trim() || "{}");
+      const clean = text.replace(/```json|```/g, "").trim();
+      const match = clean.match(/(\{[\s\S]*\})/);
+      const parsed = JSON.parse(match ? match[0] : clean);
       setResult(parsed);
       setActivePlatform(selectedPlatforms[0]);
     } catch (err) { alert("Erreur: " + err.message); }
