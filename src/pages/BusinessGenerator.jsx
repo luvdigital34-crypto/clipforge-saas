@@ -44,8 +44,8 @@ export default function BusinessGenerator() {
      const text = await callClaude({
         system: SYSTEM,
         model: "claude-haiku-4-5-20251001",
-        max_tokens: 2000,
-        messages: [{ role: "user", content: `Budget disponible : ${budget}€. Compétences : ${skills.join(", ")}. Projet envisagé : ${project}. Objectif mensuel : ${goal}€/mois. Génère un plan d'action business concret et réaliste pour 2025.` }]
+        max_tokens: 3000,
+        messages: [{ role: "user", content: `Budget : ${budget}€. Compétences : ${skills.join(", ")}. Projet : ${project}. Objectif : ${goal}€/mois. Réponds UNIQUEMENT avec le JSON demandé, sans texte avant ou après.` }]
       });
      const clean = text
         .replace(/```json|```/g, "")
