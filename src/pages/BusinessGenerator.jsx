@@ -1,26 +1,8 @@
 import { callClaude, getApiKey } from "../utils/api.js";
 import React, { useState } from "react";
 
-const SYSTEM = `Tu es un expert business et entrepreneur qui aide à lancer des projets rentables. Tu analyses le profil de l'utilisateur et génères un plan d'action concret et réaliste.
-
-Réponds UNIQUEMENT avec ce JSON (sans markdown) :
-{
-  "business_name": "nom suggéré",
-  "concept": "description en 1 phrase",
-  "verdict": "go" ou "attention" ou "stop",
-  "verdict_reason": "pourquoi",
-  "best_channel": "vinted" ou "site_web" ou "tiktok" ou "marketplace" ou "mixte",
-  "best_channel_reason": "explication concrète",
-  "monthly_potential": { "min": 500, "max": 2000, "realistic": 800 },
-  "steps": [
-    { "week": "Semaine 1-2", "title": "titre", "tasks": ["tâche 1", "tâche 2"], "priority": "haute" }
-  ],
-  "tools": [{ "name": "outil", "cost": "gratuit", "why": "pourquoi l'utiliser" }],
-  "risks": ["risque 1", "risque 2"],
-  "personal_branding": true,
-  "personal_branding_tips": ["conseil 1", "conseil 2"],
-  "quick_wins": ["action rapide 1 pour gagner de l'argent vite"]
-}`;
+const SYSTEM = `Tu es un expert business. Réponds UNIQUEMENT avec ce JSON minimaliste (sans markdown, sans texte) :
+{"business_name":"nom","concept":"1 phrase","verdict":"go","verdict_reason":"raison","best_channel":"vinted","best_channel_reason":"raison","monthly_potential":{"min":500,"max":2000,"realistic":800},"steps":[{"week":"S1-2","title":"titre","tasks":["tâche 1","tâche 2"],"priority":"haute"}],"tools":[{"name":"outil","cost":"gratuit","why":"raison"}],"risks":["risque 1"],"personal_branding":true,"personal_branding_tips":["conseil"],"quick_wins":["action rapide"]}`;
 
 export default function BusinessGenerator() {
   const [budget, setBudget] = useState("");
