@@ -69,12 +69,13 @@ export default function WebsiteBuilder() {
 
 Génère un site complet, moderne, avec animations CSS, responsive mobile. Inclus du contenu réaliste adapté au business.`;
 
-      const code = await callClaude({
+      const rawCode = await callClaude({
         system: SYSTEM_PROMPT,
         messages: [{ role: "user", content: prompt }],
         model: "claude-sonnet-4-6",
         max_tokens: 8000,
       });
+      const code = rawCode.replace(/```html/gi, "").replace(/```/g, "").trim();
 
       setGeneratedCode(code);
       setStep(2);
