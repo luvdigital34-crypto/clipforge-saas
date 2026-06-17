@@ -23,7 +23,8 @@ const SYSTEM_PROMPT = `Tu es un expert développeur web full-stack. Tu génères
 RÈGLES ABSOLUES :
 - Génère UNIQUEMENT du code HTML complet (de <!DOCTYPE html> à </html>)
 - CSS intégré dans <style>, JS intégré dans <script>
-- Design moderne, responsive mobile, animations CSS
+- Design moderne, responsive mobile, animations CSS SIMPLES
+- IMPORTANT : reste concis pour tenir dans la limite de tokens — le fichier DOIT impérativement se terminer par </html>, ne jamais le laisser incomplet
 - Aucun texte avant ou après le code HTML
 - Police Google Fonts via CDN
 - Images via placeholder ou unsplash
@@ -73,7 +74,7 @@ Génère un site complet, moderne, avec animations CSS, responsive mobile. Inclu
         system: SYSTEM_PROMPT,
         messages: [{ role: "user", content: prompt }],
         model: "claude-sonnet-4-6",
-        max_tokens: 8000,
+        max_tokens: 8192,
       });
       const code = rawCode.replace(/```html/gi, "").replace(/```/g, "").trim();
 
