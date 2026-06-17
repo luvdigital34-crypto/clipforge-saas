@@ -52,7 +52,9 @@ export default function ProductAuth() {
         model: "claude-haiku-4-5-20251001",
         max_tokens: 2000,
       });
-      setResult(JSON.parse(text.replace(/```json|```/g, "").trim()));
+      const clean = text.replace(/```json|```/g, "").replace(/[\x00-\x1F\x7F]/g, " ").trim();
+      const match = clean.match(/(\{[\s\S]*\})/);
+      setResult(JSON.parse(match ? match[0] : clean));
     } catch (err) { alert("Erreur: " + err.message); }
     finally { setLoading(false); }
   };
