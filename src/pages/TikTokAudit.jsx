@@ -40,18 +40,15 @@ export default function TikTokAudit() {
   const analyze = async () => {
     setLoading(true); setResult(null);
     try {
-      const res = await fetch("/api/claude/v1/messages", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "x-api-key": getApiKey(),  },
-        body: JSON.stringify({
-          model: "claude-haiku-4-5-20251001",
-          max_tokens: 2000,
-          system: SYSTEM,
-          messages: [{ role: "user", content: `Profil TikTok : @${username}. Abonnés : ${followers || "inconnu"}. Vues moyennes : ${avgViews || "inconnu"}. Fréquence de publication : ${frequency || "inconnue"} vidéos/semaine. Niche : ${niche || "généraliste"}. Génère un audit complet et un plan d'action personnalisé.` }]
-        })
+      const text = await callClaude({
+        system: SYSTEM,
+        model: "claude-haiku-4-5-20251001",
+        max_tokens: 2000,
+        messages: [{ role: "user", content: `Profil TikTok : @${username}. Abonnés : ${followers || "inconnu"}. Vues moyennes : ${avgViews || "inconnu"}. Fréquence de publication : ${frequency || "inconnue"} vidéos/semaine. Niche : ${niche || "généraliste"}. Génère un audit complet et un plan d'action personnalisé.` }]
       });
-      const data = await res.json();
-      setResult(JSON.parse(data.content?.[0]?.text.replace(/```json|```/g, "").trim() || "{}"));
+      const clean = text.replace(/```json|```/g, "").replace(/[\x00-\x1F\x7F]/g, " ").trim();
+      const match = clean.match(/(\{[\s\S]*\})/);
+      setResult(JSON.parse(match ? match[0] : clean));
     } catch (err) { alert("Erreur: " + err.message); }
     finally { setLoading(false); }
   };
