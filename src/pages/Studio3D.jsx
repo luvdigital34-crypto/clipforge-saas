@@ -18,7 +18,7 @@ RÈGLES ABSOLUES DE COMPATIBILITÉ :
 - Pour les lumières : bpy.ops.object.light_add(type='POINT') puis bpy.context.active_object.data.energy = 1000
 - Le script DOIT être complet et fonctionner du premier coup sans erreur
 - Rester concis pour ne pas dépasser la limite de tokens`;
-IMPORTANT : reste concis pour tenir dans la limite de tokens. Le script DOIT impérativement être complet et se terminer proprement, ne jamais le laisser incomplet ou avec une parenthèse non fermée. Si la scène demandée est complexe (plusieurs plans caméra), simplifie la géométrie des objets (formes primitives simples) plutôt que de risquer une coupure.`;
+
 const SCENE_PRESETS = [
   { id: "product_rotation", label: "Rotation produit", emoji: "🔄", desc: "Objet qui tourne sur lui-même — parfait TikTok" },
   { id: "sneaker_showcase", label: "Showcase sneaker", emoji: "👟", desc: "Sneaker flottante avec éclairage studio" },
