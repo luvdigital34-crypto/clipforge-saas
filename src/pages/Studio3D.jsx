@@ -16,6 +16,7 @@ RÈGLES ABSOLUES DE COMPATIBILITÉ :
 - Pour les keyframes : utiliser obj.keyframe_insert(data_path="rotation_euler", frame=X)
 - Pour la caméra : bpy.ops.object.camera_add() puis bpy.context.scene.camera = bpy.context.active_object
 - Pour les lumières : bpy.ops.object.light_add(type='POINT') puis bpy.context.active_object.data.energy = 1000
+- Ne JAMAIS configurer l'export vidéo/ffmpeg (scene.render.image_settings.file_format, ffmpeg, codec) car ça plante — laisser les paramètres de rendu par défaut
 - Le script DOIT être complet et fonctionner du premier coup sans erreur
 - Rester concis pour ne pas dépasser la limite de tokens`;
 
