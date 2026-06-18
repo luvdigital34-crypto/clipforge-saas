@@ -14,6 +14,7 @@ RÈGLES ABSOLUES DE COMPATIBILITÉ :
 - Utiliser UNIQUEMENT des formes primitives (cube, sphere, cylinder, torus) pour les objets
 - Pour les matériaux : créer mat = bpy.data.materials.new(name="Mat") puis mat.diffuse_color = (R, G, B, 1.0) sans nodes
 - Pour les keyframes : utiliser obj.keyframe_insert(data_path="rotation_euler", frame=X)
+- Ne JAMAIS itérer sur bpy.data.actions ou fcurves pour changer l'interpolation, ça plante
 - Pour la caméra : bpy.ops.object.camera_add() puis bpy.context.scene.camera = bpy.context.active_object
 - Pour les lumières : bpy.ops.object.light_add(type='POINT') puis bpy.context.active_object.data.energy = 1000
 - Ne JAMAIS configurer l'export vidéo/ffmpeg (scene.render.image_settings.file_format, ffmpeg, codec) car ça plante — laisser les paramètres de rendu par défaut
