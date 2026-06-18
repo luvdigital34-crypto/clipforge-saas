@@ -6,8 +6,8 @@ const BLENDER_SYSTEM = `Tu es un expert Blender Python. Tu génères des scripts
 Réponds UNIQUEMENT avec le code Python, sans markdown, sans backticks, sans explications.
 Le script doit s'exécuter directement dans Blender Scripting panel.
 Toujours commencer par : import bpy, mathutils
-Toujours nettoyer la scène au début : bpy.ops.object.select_all(action='SELECT') / bpy.ops.object.delete()`;
-
+Toujours nettoyer la scène au début : bpy.ops.object.select_all(action='SELECT') / bpy.ops.object.delete()
+IMPORTANT : reste concis pour tenir dans la limite de tokens. Le script DOIT impérativement être complet et se terminer proprement, ne jamais le laisser incomplet ou avec une parenthèse non fermée. Si la scène demandée est complexe (plusieurs plans caméra), simplifie la géométrie des objets (formes primitives simples) plutôt que de risquer une coupure.`;
 const SCENE_PRESETS = [
   { id: "product_rotation", label: "Rotation produit", emoji: "🔄", desc: "Objet qui tourne sur lui-même — parfait TikTok" },
   { id: "sneaker_showcase", label: "Showcase sneaker", emoji: "👟", desc: "Sneaker flottante avec éclairage studio" },
@@ -62,12 +62,13 @@ Format : 1080x1920 (TikTok vertical)
 Inclus : éclairage studio, matériaux PBR, animation fluide, rendu Eevee optimisé, export MP4.`;
 
     try {
-      const script = await callClaude({
+      const rawScript = await callClaude({
         system: BLENDER_SYSTEM,
         messages: [{ role: "user", content: prompt }],
         model: "claude-sonnet-4-6",
-        max_tokens: 4000,
+        max_tokens: 8192,
       });
+      const script = rawScript.replace(/```python/gi, "").replace(/```/g, "").trim();
       setGeneratedScript(script);
     } catch (err) { alert("Erreur : " + err.message); }
     finally { setLoading(false); }
